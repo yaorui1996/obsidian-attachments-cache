@@ -133,6 +133,13 @@ export class PluginSettingTab extends BaseSettingTab {
             toggle.setValue(this.#plugin.settings.handle_onpaste)
             toggle.onChange(this.#update.bind(this, 'handle_onpaste'))
         })
+
+        const handleOneditSetting = new Setting(this.containerEl)
+        handleOneditSetting.setName(i18n.translate('handleOneditName'))
+        handleOneditSetting.addToggle((toggle) => {
+            toggle.setValue(this.#plugin.settings.handle_onedit)
+            toggle.onChange(this.#update.bind(this, 'handle_onedit'))
+        })
     }
 
     #displayOverridesSettings(): void {

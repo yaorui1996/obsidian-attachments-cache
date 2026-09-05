@@ -1,0 +1,8 @@
+![image.bmp](https://alist.yaorui.top/d/picgo/2026-09-05-1788622893555-image.bmp)
+![image.bmp](https://alist.yaorui.top/d/picgo/2026-09-05-1788622893569-image.gif)
+![image.ico](https://alist.yaorui.top/d/picgo/2026-09-05-1788622898129-image.jpeg)
+![image.ico](https://alist.yaorui.top/d/picgo/2026-09-05-1788622898129-image.jpg)
+![image.ico](https://alist.yaorui.top/d/picgo/2026-09-05-1788622898129-image.png)
+![image.ico](https://alist.yaorui.top/d/picgo/2026-09-05-1788622898129-image.svg)
+![image.ico](https://alist.yaorui.top/d/picgo/2026-09-05-1788622898129-image.webp)
+![image.avif](https://alist.yaorui.top/d/picgo/2026-09-05-1788622902654-image.avif)

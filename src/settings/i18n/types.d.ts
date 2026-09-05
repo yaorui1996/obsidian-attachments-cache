@@ -25,6 +25,7 @@ export type TextTranslation =
     | 'triggersSection'
     | `handleOnrenderName`
     | `handleOnpasteName`
+    | `handleOneditName`
     // * Overrides Section
     | 'overridesSection'
     | `${Overrides_Settings}Hint`

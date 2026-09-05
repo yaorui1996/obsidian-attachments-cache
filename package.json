@@ -24,6 +24,12 @@
         "lib/**/*"
     ],
     "type": "module",
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "esbuild",
+            "simple-git-hooks"
+        ]
+    },
     "types": "./lib/index.d.ts",
     "module": "./lib/obsidian-attachments-cache.esm.js",
     "exports": {

@@ -96,6 +96,17 @@ It matches and downloads all the attachmets on the pasted content of the next pa
 - Markdown link `'[label](https://example.com/attachment.jpg)'`
 - URL `'https://example.com/attachment.jpg'`
 
+### `Cache the attachments when editing notes`
+
+> Added by this fork. Toggle it off to disable.
+
+Runs on the **Editor view** (works in _Live Preview_ and _Source mode_, unlike the [render trigger](#cachearchive-the-attachments-on-render) which only runs on **Reading View**):
+
+- When a note is **opened or switched to**, its content is scanned and all matching remote attachments are downloaded.
+- When the note is **edited**, the content is re-scanned after ~1 second of inactivity, so newly typed or inserted links get cached too.
+
+Downloads only — the note text is never modified by this trigger. Repeated scans are cheap: already-downloaded files and memoized URLs are skipped.
+
 ---
 
 ## Overrides Settings

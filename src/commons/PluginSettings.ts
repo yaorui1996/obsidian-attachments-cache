@@ -35,6 +35,8 @@ export interface AttachmentsCacheSettings {
     handle_onrender: boolean
     /** Defines whether attachments should be handled on paste. */
     handle_onpaste: boolean
+    /** Defines whether attachments should be handled when editing/opening notes. */
+    handle_onedit: boolean
     /** Defines the preference over `UTF-8` characters. */
     allow_characters: boolean
     /** User defined URL param to cache, overrides standard rules. */
@@ -68,6 +70,7 @@ export const DEFAULT_SETTINGS = Object.freeze<AttachmentsCacheSettings>({
     //
     handle_onrender: true,
     handle_onpaste: true,
+    handle_onedit: true,
     allow_characters: false,
     url_param_cache: 'cache_file',
     url_param_ignore: 'ignore_file',
@@ -88,6 +91,7 @@ export function prepareSettings(settings: unknown): AttachmentsCacheSettings {
         plugin_level:      s.plugin_level      ?? DEFAULT_SETTINGS.plugin_level,
         plugin_priority:   s.plugin_priority   ?? DEFAULT_SETTINGS.plugin_priority,
         handle_onpaste:    s.handle_onpaste    ?? DEFAULT_SETTINGS.handle_onpaste,
+        handle_onedit:     s.handle_onedit     ?? DEFAULT_SETTINGS.handle_onedit,
         handle_onrender:   s.handle_onrender   ?? DEFAULT_SETTINGS.handle_onrender,
         allow_characters:  s.allow_characters  ?? DEFAULT_SETTINGS.allow_characters,
         url_param_cache:   s.url_param_cache   ?? DEFAULT_SETTINGS.url_param_cache,

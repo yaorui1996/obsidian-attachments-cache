@@ -1,119 +1,35 @@
-# Attachments Cache
+# Attachments Cache (fork)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/gpl-3)
+**English** | [中文](#中文)
 
-If you search help about the **Settings** you can check the [documentation](./docs/settings.md).
+Fork of [luisbs/obsidian-attachments-cache](https://github.com/luisbs/obsidian-attachments-cache) — an Obsidian plugin that stores remote attachments locally inside the vault.
 
-## Summary
+- Upstream documentation: [README.upstream.md](./README.upstream.md) · [Settings docs](./docs/settings.md) · [Upstream changelog](./CHANGELOG.md)
 
-This plugin for Obsidian, stores remote attachments (currently only images) locally inside the vault.
+## Fork features
 
-The note is not modified by default, this way even outside of the vault the attachments keep working with the remotes URL.
+### Live Preview / Source mode caching (2026-09-05)
 
-> _Note:_ The attachments can be _"archived"_ instead, which makes the note reference the local file, check [`Update attachment link?`](./docs/settings.md#cacherule-update-attachment-link).
+The upstream plugin only auto-caches attachments in **Reading View**. This fork brings automatic caching to **Live Preview and Source mode**: when you open a note containing remote attachments, they are downloaded to the vault automatically; when you add new remote links while editing, they get cached as well.
 
-When the attachment is rendered in a note, the local version is used instead of the remote working as a local cache.
+As with upstream, the note text is never modified — only downloaded. The trigger can be toggled in **Settings → Triggers** ([docs](./docs/settings.md)).
 
-> _Note:_ The cached attachments can be deleted any time to free up disk space.
-
-In detail, during the Obsidian render process, when an `img` is found:
-
-1. The plugin checks if the image is cached/should be cached.
-2. Download the image into a vault folder if is not cached.
-3. Modify the `img` element to use the cached file inside the vault.
-
-## Features
-
-- [x] Exposed API for thrid-party integration.
-- [x] Whitelist/blacklist vault vault paths to perform caching.
-- [x] Whitelist/blacklist vault remote URLs to perform caching.
-- [x] For listed Vault paths define where to store the attachments.
-- [x] Allows override of rules on individual notes or remotes.
-
-## Supported attachments file-formats
-
-Based on the Obsidian supported [file-formats](https://help.obsidian.md/file-formats) the next attachments formats are been cached:
-
-- [x] Images: `.avif`, `.bmp`, `.gif`, `.jpeg`, `.jpg`, `.png`, `.svg`, `.webp`
-- [x] Audio: `.flac`, `.m4a`, `.mp3`, `.ogg`, `.wav`, `.webm`, `.3gp`
-- [x] Video: `.mkv`, `.mov`, `.mp4`, `.ogv`, `.webm`
-- [x] PDF: `.pdf`
+> Like upstream, caching is not restricted to a fixed list of file types: any URL that passes the CacheRule remotes check will be cached. Narrow the remotes list if you only want images.
 
 ---
 
-## Instalation
+## 中文
 
-### From within Obsidian
+**Fork 自 [luisbs/obsidian-attachments-cache](https://github.com/luisbs/obsidian-attachments-cache)** —— 一个把远程附件缓存到 vault 本地的 Obsidian 插件。
 
-You can activate this plugin within Obsidian by doing the following:
+- 上游文档：[README.upstream.md](./README.upstream.md) · [设置文档](./docs/settings.md) · [上游更新日志](./CHANGELOG.md)
 
-- Open Settings > Third-party plugin
-- Make sure Safe mode is **off**
-- Click Browse community plugins
-- Search for "Attachments Cache"
-- Click Install
-- Once installed, enable the plugin
-- Then select "Attachments Cache" settings
-- Configure the vault paths and URL remotes that should be cached
+## Fork 新增功能
 
-### From source
+### 实时预览/源码模式缓存（2026-09-05）
 
-You can activate this plugin, building from source by doing the following:
+上游插件只在**阅读模式**下自动缓存附件。本 fork 把自动缓存带到了**实时预览和源码模式**：打开包含远程附件的笔记时，附件会自动下载到 vault；编辑中新增的远程链接也会被自动缓存。
 
-- Clone the repository
-- Install the dependencies
-- Run `pnpm build:dist` or an equivalent.
-- Copy the content of the repository `dist` folder to your vault, the path should look like `<path-to-your-vault>/.obsidian/plugins/attachments-cache`
-- Open your vault in _Obsidian_ and activate the newly installed plugin
+与上游一致，此功能**只下载，不修改笔记文本**。可在 **设置 → Triggers**（[文档](./docs/settings.md)）中开关。
 
----
-
-## Pricing
-
-This plugin is provided to everyone for free, however if you would like to
-say thanks or help support continued development, feel free to send a little
-through the following method:
-
-[<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="BuyMeACoffee" width="100">](https://www.buymeacoffee.com/luisbs)
-
-## Notes
-
-The plugin is not on active development, new features or changes are developed when there is an oportunity. But issues and bugs will have especial priority.
-
-### Thrid-party Integration
-
-An API `AttachmentsCache` is exposed globally for easy integration.
-
-For usage inside a plugin the methods `isPluginEnabled` and `getAPI` are exposed from an npm package named `@luis.bs/obsidian-attachments-cache`
-
-```sh
-pnpm add @luis.bs/obsidian-attachments-cache
-```
-
-On other environments where the package can not be used as a dependency, the API is attach to the global `window` object. The next declare can be used for development:
-
-```ts
-declare namespace AttachmentsCache {
-    /** Determine whether the attachment matches a **short-term** storage rule. */
-    isCacheable(remote: string, notepath: string, frontmatter?: unknown): boolean
-    /** Determine whether the attachment matches a **long-term** storage rule. */
-    isArchivable(remote: string, notepath: string, frontmatter?: unknown): boolean
-    /** Download the attachment and get the localpath. */
-    cache(remote: string, notepath: string, frontmatter?: unknown): Promise<string | undefined>
-    /** Download the attachment, update the reference on the note and get the localpath. */
-    archive(remote: string, notepath: string, frontmatter?: unknown): Promise<string | undefined>
-}
-```
-
-## Troubleshooting
-
-### An image rendered by another plugin is not been cached?
-
-Plugins use [Markdown post processing](https://docs.obsidian.md/Plugins/Editor/Markdown+post+processing) to change the rendered view of the note.
-
-By default any image rendered by a plugin may be cached, dependening on the [Cache priority](./docs/settings.md#cache-priority).
-
-But if the plugin uses _**async functions**_ the order defined by **Cache priority** is not enforced, in that situations this plugin runs before the thrid-party plugin has ended and the added images avoid been cached.
-
-To prevent that situation on `'NORMAL'` priority 2 second is awaited before the cache is executed.
-On `'HIGHER'` priority 10 seconds are awaited.
+> 与上游相同，缓存不限定文件类型：凡是通过 CacheRule remotes 检查的 URL 都会被缓存。若只想缓存图片，请收窄 remotes 列表。

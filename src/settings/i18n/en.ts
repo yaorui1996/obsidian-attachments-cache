@@ -38,6 +38,7 @@ export const en: Translations = {
     ],
     handleOnrenderName: 'Cache/archive the attachments on render',
     handleOnpasteName: 'Cache/archive the attachments on paste',
+    handleOneditName: 'Cache the attachments when editing notes',
     //
     // * Overrides Section
     overridesSection: 'Overrides',

@@ -1,6 +1,7 @@
 import { Logger, LogLevel } from '@luis.bs/obsidian-fnc'
 import {
     MarkdownRenderer,
+    MarkdownView,
     Notice,
     Plugin,
     type App,
@@ -24,6 +25,7 @@ export default class AttachmentsCachePlugin extends Plugin {
 
     #api: AttachmentsCacheApi
     #mpp?: MarkdownPostProcessor
+    #editDebouncer?: number
 
     constructor(app: App, manifest: PluginManifest) {
         super(app, manifest)
@@ -42,6 +44,8 @@ export default class AttachmentsCachePlugin extends Plugin {
     onunload(): void {
         // @ts-expect-error non-standard API
         delete window.AttachmentsCache
+
+        window.clearTimeout(this.#editDebouncer)
     }
 
     async onload(): Promise<void> {
@@ -153,6 +157,51 @@ export default class AttachmentsCachePlugin extends Plugin {
                 }, this.state.plugin_timeout)
             },
         )
+
+        // Live Preview / Source mode render attachments without the
+        // **PostProcessor**, so the editor content is scanned instead
+        this.registerEvent(
+            this.app.workspace.on('active-leaf-change', () => {
+                // note opened/switched: scan immediately
+                void this.#handleEditorContent()
+            }),
+        )
+        this.registerEvent(
+            this.app.workspace.on('editor-change', () => {
+                // debounced scan to avoid running on every keystroke
+                window.clearTimeout(this.#editDebouncer)
+                this.#editDebouncer = window.setTimeout(() => {
+                    void this.#handleEditorContent()
+                }, 1000)
+            }),
+        )
+    }
+
+    /**
+     * Scans the active editor content for remote attachments and caches
+     * them locally, without updating the note text (see `api.cache`).
+     *
+     * Repeated scans are cheap: `api.cache` memoizes resolved paths
+     * and skips already downloaded files.
+     */
+    async #handleEditorContent(): Promise<void> {
+        if (!this.state.handle_onedit) return
+
+        const view = this.app.workspace.getActiveViewOfType(MarkdownView)
+        const notepath = view?.file?.path
+        if (!view || !notepath) return
+
+        const content = view.editor.getValue()
+        if (!content) return
+
+        const matches = detectRemotes(content)
+        if (matches.length < 1) return
+
+        // deduplicate remotes to avoid parallel downloads of the same URL
+        const remotes = new Set(matches.map((m) => m.remote))
+        for (const remote of remotes) {
+            await this.#api.cache(remote, notepath)
+        }
     }
 
     async #prepareReplacement(
