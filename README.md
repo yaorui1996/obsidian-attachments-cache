@@ -16,6 +16,12 @@ As with upstream, the note text is never modified — only downloaded. The trigg
 
 > Like upstream, caching is not restricted to a fixed list of file types: any URL that passes the CacheRule remotes check will be cached. Narrow the remotes list if you only want images.
 
+### Chinese / Unicode path support (2026-09-09)
+
+When a cached attachment lands in a path containing **Chinese or other non-ASCII characters** — note folder name, note path, or file name — those characters are now preserved as-is, instead of being rewritten to underscores (`_`).
+
+No configuration needed; this works with the default settings. The **Keep special characters** toggle in **Settings → General** keeps behaving the same as before.
+
 ---
 
 ## 中文
@@ -33,3 +39,9 @@ As with upstream, the note text is never modified — only downloaded. The trigg
 与上游一致，此功能**只下载，不修改笔记文本**。可在 **设置 → Triggers**（[文档](./docs/settings.md)）中开关。
 
 > 与上游相同，缓存不限定文件类型：凡是通过 CacheRule remotes 检查的 URL 都会被缓存。若只想缓存图片，请收窄 remotes 列表。
+
+### 中文 / Unicode 路径支持（2026-09-09）
+
+当缓存附件落在**含中文或其他非 ASCII 字符**的路径上时——笔记目录名、笔记路径或文件名——这些字符现在会**原样保留**，不再被替换成下划线（`_`）。
+
+无需配置，默认即生效。设置 → General 的 **Keep special characters**（保留特殊字符）开关行为不变。

@@ -5,6 +5,7 @@ import {
     type CacheRule,
     findCacheRule,
     resolveCachePath,
+    sanitizePath,
 } from './commons/CacheRules'
 import {
     testCacheRemote,
@@ -192,9 +193,11 @@ export class AttachmentsCache implements AttachmentsCacheApi {
 
         // ensure path normalization
         const localpath = resolveCachePath(rule.storage, notepath, filename)
-        const filepath = !this.#plugin.state.allow_characters
-            ? normalizePath(URI.normalize(localpath))
-            : normalizePath(localpath)
+        const filepath = normalizePath(
+            this.#plugin.state.allow_characters
+                ? localpath
+                : sanitizePath(localpath),
+        )
 
         // save for faster resolution
         this.#memo.set(baseurl, filepath)

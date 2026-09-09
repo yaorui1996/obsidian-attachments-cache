@@ -3,6 +3,7 @@ import {
     findCacheRule,
     prepareCacheRules,
     resolveCachePath,
+    sanitizePath,
     type LoadedCacheRule,
 } from '../CacheRules'
 import { prepareSettings } from '../PluginSettings'
@@ -147,5 +148,18 @@ describe('Testing CacheRules utilities', () => {
         for (const [storage, result] of storage_set) {
             expect.soft(resolveCachePath(storage, notepath, filename)).toBe(result)
         }
+    })
+
+    test('sanitizePath keeps Chinese but strips illegal chars', () => {
+        // 中文等 Unicode 字母/数字应保留（修复上游 URI.normalize 的过激清洗）
+        expect(sanitizePath('测试笔记/图片文件夹/图.png')).toBe(
+            '测试笔记/图片文件夹/图.png',
+        )
+        expect(sanitizePath('笔记 2026-09/第3版_最终.png')).toBe(
+            '笔记 2026-09/第3版_最终.png',
+        )
+        // Windows 非法字符（`<` `>` `|` `"` `*`）仍被替换成 `_`
+        // 注：`:` `?` 依上游 URI.normalize 白名单被保留（为 URL 场景设计）
+        expect(sanitizePath('a<b|"*.png')).toBe('a_b_.png')
     })
 })

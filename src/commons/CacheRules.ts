@@ -115,3 +115,15 @@ export function resolveCachePath(
 
     return URI.join(folderpath, filename)
 }
+
+/**
+ * 清理路径中的非法字符，但保留中文等 Unicode 字母/数字/组合符。
+ *
+ * 上游依赖 `@luis.bs/obsidian-fnc` 的 `URI.normalize` 用 `\w`（仅匹配 ASCII
+ * 词字符）当白名单，导致路径里的中文全被替换成 `_`。这里将其扩展为
+ * Unicode 字类，仍旧过滤 Windows 非法字符（`<>:"|?*` 等，它们不在白名单内）。
+ * Obsidian 的 `normalizePath` 只做路径规范化、不处理这些字符，故需要本层。
+ */
+export function sanitizePath(path: string): string {
+    return path.replace(/[^\w\p{L}\p{N}\p{M}\\/#?&=':,. \x2d]+/giu, '_')
+}
