@@ -67,4 +67,4 @@ npx vitest run -c ./scripts/vite.config.dist.mjs   # 测试（12 个）
 
 ### 2026-09-09 fork 元数据（version/manifest）
 
-fork 元数据：`manifest.json` 参照本机另一个 fork **url-enricher** 的标准形式改——`description` 用英文、句式 `功能概括 — forked from <上游>. 具体功能点`；`author`/`authorUrl` 从原作者 `luisbs` 改为本 fork 维护者 **`姚睿`** + github.com/yaorui1996；**去掉 `fundingUrl`**（url-enricher 也没有）。**version 保持 0.7.0 不动**（用户定，不要因加功能就升版本）。dist/test-vault 的 manifest 由构建自动同步（`packageStatic` 拷贝，不用手改）。**通用规范**：fork Obsidian 插件，manifest 必须改 author+description；author 用中文名「姚睿」、描述参考 url-enricher 形式，见记忆 [[obsidian-plugin-fork-manifest-pattern]]。
+fork 元数据：`manifest.json` 的 `author`/`authorUrl` 从原作者 `luisbs` 改为本 fork 维护者 **`姚睿`** + github.com/yaorui1996；**去掉 `fundingUrl`**（url-enricher 也没有）；**`description` 用简短中文**（如「将远程附件缓存到笔记库本地，支持实时预览模式自动缓存」）。**version 保持 0.7.0 不动**（用户定，不要因加功能就升版本）。dist/test-vault 的 manifest 由构建自动同步（`packageStatic` 拷贝，不用手改）。**通用规范**：fork Obsidian 插件，manifest 必须改 author+description；author 用中文名「姚睿」、description 简短中文，见记忆 [[obsidian-plugin-fork-manifest-pattern]]。
