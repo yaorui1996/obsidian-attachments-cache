@@ -2,7 +2,7 @@
     "license": "GPL-3.0-or-later",
     "version": "0.7.0",
     "name": "@luis.bs/obsidian-attachments-cache",
-    "description": "将远程附件缓存到笔记库本地，支持实时预览模式自动缓存。",
+    "description": "继承自 luisbs/obsidian-attachments-cache。把远程附件缓存到笔记库本地，支持实时预览模式自动缓存。",
     "keywords": [
         "obsidian",
         "attachments",
