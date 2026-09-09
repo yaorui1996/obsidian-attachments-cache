@@ -41,6 +41,8 @@ Fork 自 luisbs/obsidian-attachments-cache（v0.7.0）。与上游的差异和�
 pnpm watch      # dev 构建，直接输出 test-vault/.obsidian/plugins/attachments-cache/（带 sourcemap），配合 test-vault 的 hot-reload 插件
 pnpm build:dist # 正式构建 → dist/（无 sourcemap）
 npx vitest run -c ./scripts/vite.config.dist.mjs   # 测试（12 个）
+
+- **产出物同步约定（2026-09-09 用户定）**：每次改完源码，`dist/`（正式版）与 `test-vault/.obsidian/plugins/attachments-cache/`（dev 版）**两份都要刷到最新**。`build:dist` 只动 dist、`build:demo`/`watch` 只动 test-vault，二者互不触发；手头没有后台 watch 时，可 `pnpm build:dist && pnpm build:demo` 连跑一次刷齐。注意：`pnpm watch` 是前台阻塞进程，后台残留时只自动刷 test-vault、**不含 dist**，别误以为它把两份都更新了。
 ```
 
 - `test-vault/example/` 有测试素材：10 张图（png/jpeg/jpg/webp/avif/gif/bmp/svg/ico/tiff）+ document.pdf
