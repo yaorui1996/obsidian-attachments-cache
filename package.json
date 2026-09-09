@@ -2,7 +2,7 @@
     "license": "GPL-3.0-or-later",
     "version": "0.7.0",
     "name": "@luis.bs/obsidian-attachments-cache",
-    "description": "Store images and other attachments on the vault",
+    "description": "Caches and archives remote attachments locally — forked from luisbs/obsidian-attachments-cache. Downloads remote images and files into the vault and rewrites their references; adds automatic caching in Live Preview/Source mode and keeps non-ASCII (Chinese) paths intact.",
     "keywords": [
         "obsidian",
         "attachments",

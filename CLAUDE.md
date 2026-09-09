@@ -64,3 +64,7 @@ npx vitest run -c ./scripts/vite.config.dist.mjs   # 测试（12 个）
 ### 2026-09-09 中文/Unicode 路径支持
 
 修上游依赖 `URI.normalize` 的过激清洗（`\w` 不含中文 → 中文路径变 `_`）。思路与改动见上文「本 fork 做了什么」；新增 `sanitizePath()`（CacheRules.ts）+ `AttachmentsCacheApi.ts` 接入 + 一个针对测试（CacheRules.test.ts）。测试从 11 → 12。README 中英各加一个功能小节。默认配置即可生效，无需用户改 `allow_characters`。
+
+### 2026-09-09 fork 元数据（version/manifest）
+
+fork 元数据：`manifest.json` 参照本机另一个 fork **url-enricher** 的标准形式改——`description` 用英文、句式 `功能概括 — forked from <上游>. 具体功能点`；`author`/`authorUrl` 从原作者 `luisbs` 改为本 fork 维护者 **`姚睿`** + github.com/yaorui1996；**去掉 `fundingUrl`**（url-enricher 也没有）。**version 保持 0.7.0 不动**（用户定，不要因加功能就升版本）。dist/test-vault 的 manifest 由构建自动同步（`packageStatic` 拷贝，不用手改）。**通用规范**：fork Obsidian 插件，manifest 必须改 author+description；author 用中文名「姚睿」、描述参考 url-enricher 形式，见记忆 [[obsidian-plugin-fork-manifest-pattern]]。
